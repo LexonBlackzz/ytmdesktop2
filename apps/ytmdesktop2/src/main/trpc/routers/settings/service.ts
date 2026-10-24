@@ -66,6 +66,8 @@ const defaultSettings = {
 		skipDisliked: false,
 		/** Prefetch the next YTM queue batch before the loaded list ends. */
 		queueContinue: true,
+		/** Mute and fast-forward through ads in the YTM player. Off by default (against YouTube's terms). */
+		skipAds: false,
 		/** `ask` = confirm dialog; `play` = open watch immediately */
 		deepLinkOpen: "ask" as "ask" | "play",
 		/** Rewrite YTM “Copy link” clipboard URLs to `ytmd://` */

@@ -41,6 +41,17 @@ function PlayerGeneralSettingsPage() {
 							Continue long queues
 						</SettingsCheckbox>
 						<SettingsCheckbox
+							configKey="player.skipAds"
+							description={
+								<span className="inline-flex items-center gap-2">
+									Mute and fast-forward through ads. Goes against YouTube's terms, so use it at your own risk.
+									<Badge variant="outline">Experimental</Badge>
+								</span>
+							}
+						>
+							Skip ads
+						</SettingsCheckbox>
+						<SettingsCheckbox
 							configKey="volumeRatio.enabled"
 							description="Use an exponential volume curve for finer control than the default linear slider."
 						>
