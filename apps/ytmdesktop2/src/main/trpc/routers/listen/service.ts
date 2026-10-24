@@ -2,12 +2,14 @@ import { BaseProvider, type OnDestroy } from "@main/core/baseProvider";
 import { emitAppToast } from "@main/lib/appToast";
 import { trackService } from "@main/trpc/routers/track";
 import {
+	DEFAULT_RELAY_URL,
 	expectedPositionMs,
 	isListenCode,
 	LISTEN_DRIFT_MS,
 	type ListenServerMessage,
 	type ListenState,
 	type ListenStatus,
+	relayConnectUrl,
 } from "@shared/listen/protocol";
 import type { App } from "electron";
 import WebSocket from "ws";
@@ -43,13 +45,13 @@ export default class ListenProvider extends BaseProvider implements OnDestroy {
 	}
 
 	host() {
-		return this.connect({ t: "host" });
+		return this.connect("host");
 	}
 
 	join(code: string) {
 		const clean = code.trim().toUpperCase();
 		if (!isListenCode(clean)) return this.fail("Invalid room code");
-		return this.connect({ t: "join", code: clean }, clean);
+		return this.connect("join", clean);
 	}
 
 	leave() {
@@ -84,10 +86,12 @@ export default class ListenProvider extends BaseProvider implements OnDestroy {
 		this.sent = this.last = this.opened = null;
 	}
 
-	private connect(hello: object, joinCode?: string) {
+	private connect(role: "host" | "join", joinCode?: string) {
 		this.teardown();
-		const url = this.getProvider("settings").get<string>("listen.relayUrl", "").trim();
-		if (!/^wss?:\/\//i.test(url)) return this.fail("Set a relay URL (ws:// or wss://) in Listen Together settings first");
+		const base = this.getProvider("settings").get<string>("listen.relayUrl", "").trim() || DEFAULT_RELAY_URL;
+		const url = relayConnectUrl(base, role, joinCode);
+		if (!url) return this.fail("Set a relay URL (ws:// or wss://) in Listen Together settings first");
+		const hello = role === "host" ? { t: "host" } : { t: "join", code: joinCode };
 		this.setStatus({ ...idle, connecting: true });
 
 		const ws = new WebSocket(url);

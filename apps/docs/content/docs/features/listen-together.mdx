@@ -7,14 +7,25 @@ One person hosts a room, others join with a 6-character code or a `ytmd://listen
 
 ## Relay server
 
-Rooms go through a small WebSocket relay. There is no default one: you or a friend run it, then everyone puts the same address under **Settings → Listen Together → Relay server**.
+Rooms go through a small WebSocket relay. If the build ships with a default relay, **Host a room** works out of the box. Otherwise (or to use your own) put the address under **Settings → Listen Together → Relay server**. Everyone in a room must use the same relay.
+
+### Cloudflare (recommended, free tier)
+
+```bash
+cd apps/listen-relay
+npx wrangler deploy
+```
+
+Wrangler prints a `https://ytmd-listen-relay.<you>.workers.dev` address. Use it as `wss://ytmd-listen-relay.<you>.workers.dev`, or bake it into builds with `VITE_LISTEN_RELAY_URL`.
+
+### Node (self-hosted)
 
 ```bash
 pnpm --filter ytmdesktop2-listen-relay install
 PORT=8787 pnpm --filter ytmdesktop2-listen-relay start
 ```
 
-Use `ws://host:8787` on a LAN, or put it behind a TLS proxy and use `wss://…`. The relay keeps rooms in memory and has no accounts or rate limiting, so keep it private or behind a proxy.
+Use `ws://host:8787` on a LAN, or put it behind a TLS proxy for `wss://…`. Rooms live in memory with no accounts or rate limiting, so keep it private or behind a proxy.
 
 ## Hosting
 

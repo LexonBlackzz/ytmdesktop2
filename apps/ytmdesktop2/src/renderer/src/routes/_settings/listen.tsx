@@ -1,3 +1,4 @@
+import { DEFAULT_RELAY_URL } from "@shared/listen/protocol";
 import { YtmdLink } from "@shared/protocol/ytmdProtocol";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
@@ -38,8 +39,8 @@ function ListenSettingsPage() {
 					<SettingsInput
 						configKey="listen.relayUrl"
 						label="Relay server"
-						placeholder="wss://relay.example.com"
-						hint="Everyone in a room must use the same relay. Run your own with apps/listen-relay."
+						placeholder={DEFAULT_RELAY_URL || "wss://relay.example.com"}
+						hint={DEFAULT_RELAY_URL ? "Leave empty to use the built-in relay. Everyone in a room must use the same one." : "Everyone in a room must use the same relay. Run your own with apps/listen-relay."}
 						disabled={mode !== "idle"}
 					/>
 				</FieldGroup>
