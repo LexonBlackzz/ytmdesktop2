@@ -83,6 +83,13 @@ export default class DeeplinkProvider extends BaseProvider implements BeforeStar
 			return;
 		}
 
+		// ponytail: joins straight away (relay URL is the user's own); add a confirm dialog if invite spam appears.
+		if (pending.type === "listen") {
+			await this.getProvider("listen").join(pending.code);
+			emitAppToast(this.windowContext, { type: "info", message: `Joining listen room ${pending.code}` });
+			return;
+		}
+
 		// Explicit `/play` on playlist → start immediately (link intent).
 		if (pending.type === "playlist" && pending.play) {
 			await this.applyChoice("play", pending);

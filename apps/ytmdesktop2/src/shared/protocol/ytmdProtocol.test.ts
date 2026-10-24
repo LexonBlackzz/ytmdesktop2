@@ -83,6 +83,12 @@ describe("YtmdLink.resolve", () => {
 		expect(YtmdLink.resolve("not-a-url")).toBeNull();
 	});
 
+	test("listen invite", () => {
+		expect(YtmdLink.listen("abc234")).toBe("ytmd://listen/ABC234");
+		expect(YtmdLink.parse("ytmd://listen/abc234")).toEqual({ type: "listen", code: "ABC234" });
+		expect(YtmdLink.parse("ytmd://listen/bad")).toBeNull();
+	});
+
 	test("lastfm integration callback", () => {
 		expect(YtmdLink.integrationCallback("lastfm")).toBe("ytmd://integrations/lastfm/callback");
 		expect(YtmdLink.parse("ytmd://integrations/lastfm/callback")).toEqual({

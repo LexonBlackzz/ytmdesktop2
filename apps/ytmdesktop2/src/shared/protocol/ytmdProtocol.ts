@@ -1,9 +1,12 @@
+import { isListenCode } from "../listen/protocol";
+
 /** Parsed `ytmd://` deep link. */
 export type YtmdParsed =
 	| { type: "watch"; videoId: string; playlistId?: string }
 	| { type: "playlist"; playlistId: string; play: boolean }
 	| { type: "channel"; channelId?: string; handle?: string }
-	| { type: "integration"; provider: "lastfm"; action: "callback"; token?: string };
+	| { type: "integration"; provider: "lastfm"; action: "callback"; token?: string }
+	| { type: "listen"; code: string };
 
 const INTEGRATION_PROVIDERS = new Set(["lastfm"]);
 
@@ -50,11 +53,17 @@ export class YtmdLink {
 		return `${YtmdLink.scheme}://integrations/${provider}/callback`;
 	}
 
+	/** Listen-together invite: `ytmd://listen/<ROOMCODE>`. */
+	static listen(code: string): string {
+		return `${YtmdLink.scheme}://listen/${code.toUpperCase()}`;
+	}
+
 	/** Format any parsed link back to a compact or music-host `ytmd://` URL. */
 	static format(link: YtmdParsed): string {
 		if (link.type === "watch") return YtmdLink.watch(link.videoId, link.playlistId);
 		if (link.type === "playlist") return YtmdLink.playlist(link.playlistId, link.play);
 		if (link.type === "integration") return YtmdLink.integrationCallback(link.provider);
+		if (link.type === "listen") return YtmdLink.listen(link.code);
 		if (link.channelId) return `${YtmdLink.scheme}://channel/${link.channelId}`;
 		if (link.handle) return `${YtmdLink.scheme}://music.youtube.com/@${link.handle}`;
 		return `${YtmdLink.scheme}://`;
@@ -156,6 +165,11 @@ export class YtmdLink {
 			}
 			if (YtmdLink.channelIdRe.test(token)) return { type: "channel", channelId: token };
 			return null;
+		}
+
+		if (kind === "listen") {
+			const code = parts[1]?.toUpperCase();
+			return code && isListenCode(code) ? { type: "listen", code } : null;
 		}
 
 		if (kind === "integrations") {

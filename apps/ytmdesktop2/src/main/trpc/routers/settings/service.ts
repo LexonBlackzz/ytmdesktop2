@@ -95,6 +95,10 @@ const defaultSettings = {
 	lastfm: {
 		enabled: false,
 	} as LastFMSettings,
+	listen: {
+		/** WebSocket relay for listen-together (ws:// or wss://). Empty = feature unusable. */
+		relayUrl: "",
+	},
 	shortcuts: {
 		enabled: true,
 		binds: {} as Record<string, string | null>,

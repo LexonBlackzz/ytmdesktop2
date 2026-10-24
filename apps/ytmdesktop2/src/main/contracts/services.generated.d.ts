@@ -8,6 +8,7 @@ import type deeplinkProvider from "@routers/deeplink/service";
 import type discordProvider from "@routers/discord/service";
 import type eventProvider from "@routers/event/service";
 import type lastfmProvider from "@routers/lastfm/service";
+import type listenProvider from "@routers/listen/service";
 import type lyricsProvider from "@routers/lyrics/service";
 import type mediaControlProvider from "@routers/mediaControl/service";
 import type navigationProvider from "@routers/navigation/service";
@@ -34,6 +35,7 @@ export interface ServiceTypeMap {
   "discord": discordProvider;
   "event": eventProvider;
   "lastfm": lastfmProvider;
+  "listen": listenProvider;
   "lyrics": lyricsProvider;
   "mediaControl": mediaControlProvider;
   "navigation": navigationProvider;

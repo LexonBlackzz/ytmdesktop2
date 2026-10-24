@@ -9,6 +9,7 @@ import {
 	RiDiscordLine,
 	RiGithubFill,
 	RiGlobalLine,
+	RiGroupLine,
 	RiInformationLine,
 	RiKey2Line,
 	RiLiveLine,
@@ -54,6 +55,7 @@ const tabs = {
 	generic: { to: "/", label: "Generic", icon: RiSettings3Line },
 	discord: { to: "/discord", label: "Discord", icon: RiDiscordLine },
 	lastfm: { to: "/lastfm", label: "Last.fm", icon: RiAlbumLine },
+	listen: { to: "/listen", label: "Listen Together", icon: RiGroupLine },
 	about: { to: "/about", label: "About", icon: RiInformationLine },
 } as const;
 
@@ -282,6 +284,7 @@ function SettingsLayout() {
 									<AppearanceNav />
 									<SettingsNavItem {...tabs.discord} />
 									<SettingsNavItem {...tabs.lastfm} />
+									<SettingsNavItem {...tabs.listen} />
 									<ApiIntegrationsNav />
 									<SettingsNavItem {...tabs.about} />
 								</SidebarMenu>

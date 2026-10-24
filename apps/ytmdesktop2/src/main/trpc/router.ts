@@ -7,6 +7,7 @@ import { authRouter } from "@main/trpc/routers/auth";
 import { chromecastRouter } from "@main/trpc/routers/chromecast";
 import { discordRouter } from "@main/trpc/routers/discord";
 import { lastfmRouter } from "@main/trpc/routers/lastfm";
+import { listenRouter } from "@main/trpc/routers/listen";
 import { navigationRouter } from "@main/trpc/routers/navigation";
 import { settingsRouter } from "@main/trpc/routers/settings";
 import { shortcutRouter } from "@main/trpc/routers/shortcut";
@@ -35,6 +36,7 @@ export const appRouter = router({
 	trayView: trayViewRouter,
 	themes: themesRouter,
 	lastfm: lastfmRouter,
+	listen: listenRouter,
 	chromecast: chromecastRouter,
 	window: windowRouter,
 	discord: discordRouter,

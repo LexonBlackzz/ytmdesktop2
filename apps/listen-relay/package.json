@@ -1,0 +1,13 @@
+{
+	"name": "ytmdesktop2-listen-relay",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"description": "Tiny WebSocket room relay for YTMDesktop2 listen-together.",
+	"scripts": {
+		"start": "node server.mjs"
+	},
+	"dependencies": {
+		"ws": "^8.21.2"
+	}
+}

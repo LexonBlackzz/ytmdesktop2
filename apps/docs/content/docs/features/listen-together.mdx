@@ -1,0 +1,30 @@
+---
+title: Listen together
+description: Host a room and let friends hear the same track in sync
+---
+
+One person hosts a room, others join with a 6-character code or a `ytmd://listen/<CODE>` invite link. The host's track, play/pause and seeking are mirrored to every guest. Guests just listen.
+
+## Relay server
+
+Rooms go through a small WebSocket relay. There is no default one: you or a friend run it, then everyone puts the same address under **Settings → Listen Together → Relay server**.
+
+```bash
+pnpm --filter ytmdesktop2-listen-relay install
+PORT=8787 pnpm --filter ytmdesktop2-listen-relay start
+```
+
+Use `ws://host:8787` on a LAN, or put it behind a TLS proxy and use `wss://…`. The relay keeps rooms in memory and has no accounts or rate limiting, so keep it private or behind a proxy.
+
+## Hosting
+
+**Settings → Listen Together → Host a room**, then **Copy invite link** and send it. The listener count updates live. **End session** closes the room for everyone.
+
+## Joining
+
+Type the room code and press **Join**, or open the invite link. The app opens the host's current track and seeks to the right spot; it re-syncs every few seconds if you drift more than 2 seconds.
+
+## Limits
+
+- Playlist/queue context is not shared, only the current track. Your own queue takes over if the host's track ends before the next one arrives.
+- No automatic reconnect; rejoin with the code if the relay drops.
